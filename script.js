@@ -1,19 +1,21 @@
-const loader = document.querySelector(".loaderContent");
+let loader = document.querySelector(".loaderContent");
 const rows = document.querySelector(".rows");
+var items;
 
 const updateRow = function (event, item, newValue) {
-  console.log(newValue);
   let title = document.querySelector(".item__title" + item.id);
-  item.title = newValue;
-  title.innerHTML = `${item.title}`;
+  items[item.id - 1].title = newValue;
+  title.innerHTML = `${newValue}`;
+  document.querySelector(".item__title" + item.id).click();
+  document.querySelector(".image__src").innerHTML = `
+    <img src=${item.previewImage} loading="lazy" />
+  `;
 };
 
 const loadItem = function (event, item) {
-  console.log(item);
-  const imageArticle = document.createElement("article");
-  imageArticle.classList.add("image");
-  imageArticle.setAttribute("id", item.id);
-  imageArticle.innerHTML = `
+  loader.classList.add("image");
+  loader.setAttribute("id", item.id);
+  loader.innerHTML = `
     <figure class="image__src">
       <img src=${item.previewImage} loading="lazy" />
     </figure>
@@ -22,17 +24,15 @@ const loadItem = function (event, item) {
       <input type="text" value=${item.title}>
     </form>
   `;
-  let form = imageArticle.querySelector("form");
+  let form = loader.querySelector("form");
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     let newValue = form.querySelector("input").value;
     updateRow(event, item, newValue);
   });
-  loader.innerHTML = imageArticle.innerHTML;
 };
 
 const formed = function (item, id) {
-  console.log(item);
   let row = document.createElement("row");
   row.classList.add("tab");
   row.setAttribute("id", id);
@@ -45,7 +45,7 @@ const formed = function (item, id) {
   return row;
 };
 
-const printHTML = function (items) {
+const printHTML = function () {
   let id = 1;
   items.forEach((item) => {
     item.id = id;
@@ -56,6 +56,6 @@ const printHTML = function (items) {
 fetch("./items.json")
   .then((response) => response.text())
   .then((json) => {
-    let items = JSON.parse(json);
-    printHTML(items);
+    items = JSON.parse(json);
+    printHTML();
   });
