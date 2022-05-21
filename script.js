@@ -1,6 +1,8 @@
 let loader = document.querySelector(".loaderContent");
 const rows = document.querySelector(".rows");
 var items;
+let selectedID = 1;
+let N;
 
 const updateRow = function (event, item, newValue) {
   let title = document.querySelector(".item__title" + item.id);
@@ -40,6 +42,7 @@ const formed = function (item, id) {
     <h1 class="item__title${item.id}">${item.title}</h1>
   `;
   row.addEventListener("click", (event) => {
+    selectedID = item.id;
     loadItem(event, item);
   });
   return row;
@@ -51,11 +54,29 @@ const printHTML = function () {
     item.id = id;
     rows.append(formed(item, id++));
   });
+  document.querySelector(".item__title1").click();
 };
 
 fetch("./items.json")
   .then((response) => response.text())
   .then((json) => {
     items = JSON.parse(json);
+    N = items.length;
     printHTML();
   });
+
+window.addEventListener("keydown", (event) => {
+  switch (event.key) {
+    case "Down":
+    case "ArrowDown":
+      selectedID++;
+      if (selectedID == N + 1) selectedID = 1;
+      break;
+    case "Up":
+    case "ArrowUp":
+      selectedID--;
+      if (selectedID == 0) selectedID = N;
+      break;
+  }
+  document.querySelector(".item__title" + selectedID).click();
+});
