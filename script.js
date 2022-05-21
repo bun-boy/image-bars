@@ -1,4 +1,5 @@
-const main = document.querySelector(".maincontent");
+const loader = document.querySelector(".loaderContent");
+const rows = document.querySelector(".rows");
 
 const updateRow = function (event, item, newValue) {
   console.log(newValue);
@@ -27,7 +28,7 @@ const loadItem = function (event, item) {
     let newValue = form.querySelector("input").value;
     updateRow(event, item, newValue);
   });
-  main.append(imageArticle);
+  loader.innerHTML = imageArticle.innerHTML;
 };
 
 const formed = function (item, id) {
@@ -48,7 +49,7 @@ const printHTML = function (items) {
   let id = 1;
   items.forEach((item) => {
     item.id = id;
-    main.append(formed(item, id++));
+    rows.append(formed(item, id++));
   });
 };
 
