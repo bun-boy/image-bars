@@ -5,10 +5,10 @@ let selectedID = 1;
 let N;
 
 const updateRow = function (event, item, newValue) {
-  let title = document.querySelector(".item__title" + item.id);
+  let title = document.querySelector(".item" + selectedID);
   items[item.id - 1].title = newValue;
   title.innerHTML = `${newValue}`;
-  document.querySelector(".item__title" + item.id).click();
+  document.querySelector(".row" + item.id).click();
   document.querySelector(".image__src").innerHTML = `
     <img src=${item.previewImage} loading="lazy" />
   `;
@@ -36,10 +36,8 @@ const formed = function (item, id) {
   row.classList.add("row" + id);
   row.setAttribute("selected", false);
   row.innerHTML = `
-  <p>
     <div><img class="item__icon" src=${item.previewImage} loading="lazy" /></div>
-    <div><span class="item__title">${item.title}</span></div>
-  </p>
+    <div><span class="item__title item${id}">${item.title}</span></div>
   `;
   row.addEventListener("click", (event) => {
     let tmp = ".row" + selectedID;
