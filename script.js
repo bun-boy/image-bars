@@ -1,4 +1,4 @@
-let loader = document.querySelector(".loaderContent");
+let article = document.querySelector(".articleContent");
 const rows = document.querySelector(".rows");
 var items;
 let selectedID = 1;
@@ -15,18 +15,14 @@ const updateRow = function (event, item, newValue) {
 };
 
 const loadItem = function (event, item) {
-  loader.classList.add("image");
-  loader.setAttribute("id", item.id);
-  loader.innerHTML = `
-    <figure class="image__src">
-      <img src=${item.previewImage} loading="lazy" />
-    </figure>
-    <form>
+  article.innerHTML = `
+    <img class="image__src" src=${item.previewImage} loading="lazy" />
+    <form class="image__form">
       <label for="image__title"></label>
       <input type="text" value=${item.title}>
     </form>
   `;
-  let form = loader.querySelector("form");
+  let form = article.querySelector("form");
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     let newValue = form.querySelector("input").value;
@@ -35,14 +31,22 @@ const loadItem = function (event, item) {
 };
 
 const formed = function (item, id) {
-  let row = document.createElement("row");
+  let row = document.createElement("div");
   row.classList.add("tab");
-  row.setAttribute("id", id);
+  row.classList.add("row" + id);
+  row.setAttribute("selected", false);
   row.innerHTML = `
-    <h1 class="item__title${item.id}">${item.title}</h1>
+  <p>
+    <div><img class="item__icon" src=${item.previewImage} loading="lazy" /></div>
+    <div><span class="item__title">${item.title}</span></div>
+  </p>
   `;
   row.addEventListener("click", (event) => {
+    let tmp = ".row" + selectedID;
+    document.querySelector(tmp).setAttribute("selected", false);
     selectedID = item.id;
+    tmp = ".row" + selectedID;
+    document.querySelector(tmp).setAttribute("selected", true);
     loadItem(event, item);
   });
   return row;
@@ -54,7 +58,7 @@ const printHTML = function () {
     item.id = id;
     rows.append(formed(item, id++));
   });
-  document.querySelector(".item__title1").click();
+  document.querySelector(".row1").click();
 };
 
 fetch("./items.json")
@@ -66,17 +70,20 @@ fetch("./items.json")
   });
 
 window.addEventListener("keydown", (event) => {
+  let tmp;
   switch (event.key) {
     case "Down":
     case "ArrowDown":
-      selectedID++;
-      if (selectedID == N + 1) selectedID = 1;
+      tmp = selectedID + 1;
+      if (tmp == N + 1) tmp = 1;
       break;
     case "Up":
     case "ArrowUp":
-      selectedID--;
-      if (selectedID == 0) selectedID = N;
+      tmp = selectedID - 1;
+      if (tmp == 0) tmp = N;
       break;
+    default:
+      return;
   }
-  document.querySelector(".item__title" + selectedID).click();
+  document.querySelector(".row" + tmp).click();
 });
