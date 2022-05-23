@@ -18,7 +18,7 @@ const loadItem = function (event, item) {
   article.innerHTML = `
     <img class="image__src" src=${item.previewImage} loading="lazy" />
     <form class="image__form">
-      <input type="text" value=${item.title}>
+      <input type="text" value="${item.title}">
     </form>
   `;
   let form = article.querySelector("form");
