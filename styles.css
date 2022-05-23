@@ -42,13 +42,14 @@ nav {
 .image__form {
   resize: auto;
   text-align: center;
+  margin-top: -50px;
   width: 500px;
   border-radius: 5px;
 }
 
 [type="text"] {
   margin: 20px;
-  width: 495px;
+  width: 490px;
   border-radius: 2px;
   border-color: white;
   text-align: center;
