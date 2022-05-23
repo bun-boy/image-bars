@@ -3,6 +3,7 @@ const rows = document.querySelector(".rows");
 var items;
 let selectedID = 1;
 let N;
+let maxN = -1;
 
 const updateRow = function (event, item, newValue) {
   let title = document.querySelector(".item" + selectedID);
@@ -29,17 +30,45 @@ const loadItem = function (event, item) {
   });
 };
 
+const compute = function () {
+  let row = document.createElement("div");
+  row.classList.add("tab");
+  row.classList.add("row");
+  row.classList.add("demo");
+  row.innerHTML = `
+      <div><img class="item__icon" src=${items[0].previewImage} loading="lazy" /></div>
+      <div><span class="item__title item1">...</span></div>
+  `;
+  rows.append(row);
+  let width = row.offsetWidth;
+  row.remove();
+  row.innerHTML = `<div><span class="item__title item1">oa</span></div>`;
+  rows.append(row);
+  let add = row.offsetWidth;
+  row.remove();
+  let elementWidth = 300;
+  maxN = 0;
+  while (width < elementWidth) {
+    width += add;
+    maxN += 2;
+  }
+  console.log(maxN);
+  return maxN;
+};
+
 const formed = function (item, id) {
   let row = document.createElement("div");
   row.classList.add("tab");
   row.classList.add("row" + id);
   row.setAttribute("selected", false);
   let displayTitle = item.title;
-  if (item.title.length > 32) {
+  if (maxN === -1) maxN = compute();
+
+  if (item.title.length > maxN) {
     displayTitle =
-      item.title.slice(0, 16) +
+      item.title.slice(0, maxN / 2) +
       "..." +
-      item.title.slice(item.title.length - 16, item.title.length);
+      item.title.slice(item.title.length - maxN / 2, item.title.length);
   }
   row.innerHTML = `
     <div><img class="item__icon" src=${item.previewImage} loading="lazy" /></div>

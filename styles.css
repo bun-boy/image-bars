@@ -55,3 +55,7 @@ nav {
   text-align: center;
   box-shadow: none;
 }
+
+.demo {
+  width: min-content;
+}
