@@ -38,3 +38,19 @@ nav {
   padding: 20px;
   border-radius: 25px;
 }
+
+.image__form {
+  resize: auto;
+  text-align: center;
+  width: 500px;
+  border-radius: 5px;
+}
+
+[type="text"] {
+  margin: 20px;
+  width: 495px;
+  border-radius: 2px;
+  border-color: white;
+  text-align: center;
+  box-shadow: none;
+}

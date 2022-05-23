@@ -18,7 +18,6 @@ const loadItem = function (event, item) {
   article.innerHTML = `
     <img class="image__src" src=${item.previewImage} loading="lazy" />
     <form class="image__form">
-      <label for="image__title"></label>
       <input type="text" value=${item.title}>
     </form>
   `;
