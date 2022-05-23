@@ -34,9 +34,16 @@ const formed = function (item, id) {
   row.classList.add("tab");
   row.classList.add("row" + id);
   row.setAttribute("selected", false);
+  let displayTitle = item.title;
+  if (item.title.length > 32) {
+    displayTitle =
+      item.title.slice(0, 16) +
+      "..." +
+      item.title.slice(item.title.length - 16, item.title.length);
+  }
   row.innerHTML = `
     <div><img class="item__icon" src=${item.previewImage} loading="lazy" /></div>
-    <div><span class="item__title item${id}">${item.title}</span></div>
+    <div><span class="item__title item${id}">${displayTitle}</span></div>
   `;
   row.addEventListener("click", (event) => {
     let tmp = ".row" + selectedID;
